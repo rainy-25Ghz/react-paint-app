@@ -1,38 +1,139 @@
-.App {
-  text-align: center;
-}
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+:root{
+    --blue:rgba(24,160,251,1);
+    --black:rgba(44,44,44,1);
+    --orange:rgba(255,133,119,1);
+    --gray:rgba(229,229,229,1);
+    --dark-black:rgba(0,0,0,1);
+    --white:rgba(255,255,255,1);
+    --green:rgba(27, 196, 125,1);
+    }
+.toolbar-btn-clicked{
+    width:40px;
+    height:40px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background-color:var(--blue) ;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.toolbar-btn{
+    width:40px;
+    height:40px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background-color:var(--black) ;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.toolbar{
+    position: absolute;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:40px;
+    background-color:var(--black);
+    font-family: serifSC;
+    font-style: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-
-.App-link {
-  color: #61dafb;
+.back-div{
+    height: 100vh;
+    width: 100vw;
+    background-color:var(--gray);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+.paint-canvas{
+    /* height: 400px;
+    width: 400px;
+    margin:0 auto;
+    background-color:var(--white); */
+    margin:0 auto;
+    /* border:1px solid black; */
+    width:1000px;
+    height: 500px;
+    background-color:var(--white);
+}
+.panel{
+    position: absolute;
+    top:40px;
+    left:0;
+    width:5vw;
+    height: 100vh;
+    background-color:var(--white) ;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.div-red{
+    background-color: var(--orange);
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    width:2.5vw;
+    height:2.5vw ;
+    margin:0.3vw;
+    border-radius: 25%;
+}
+.div-black{
+    background-color: var(--black);
+
+    width:2.5vw;
+    height:2.5vw ;
+    margin:0.3vw;
+    border-radius: 25%;
+}
+.div-gray{
+    background-color: var(--gray);
+
+    width:2.5vw;
+    height:2.5vw ;
+    margin:0.3vw;
+    border-radius: 25%;
+    }
+.div-green{
+    background-color: greenyellow;
+
+    width:2.5vw;
+    height:2.5vw ;
+    margin:0.3vw;
+    border-radius: 25%;
+}
+.div-blue{
+    background-color: var(--blue);
+
+    width:2.5vw;
+    height:2.5vw ;
+    margin:0.3vw;
+    border-radius: 25%;
+}
+.div-yellow{
+    background-color: yellow;
+    width:2.5vw;
+    height:2.5vw ;
+    margin:0.3vw;
+    border-radius: 25%;
+}
+.div-purple{
+    background-color: purple;
+   
+    width:2.5vw;
+    height:2.5vw ;
+    margin:0.3vw;
+    border-radius: 25%;
+}
+.selected{
+    border:2px solid var(--black);
+    width:3.5vw;
+    height:3.5vw ;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.div-color{
+    width:2.5vw;
+    height:2.5vw ;
+    margin:0.3vw;
+    border-radius: 25%;
 }

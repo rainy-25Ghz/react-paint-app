@@ -1,0 +1,125 @@
+import React, { useState, useEffect } from 'react';
+import "./App.css";
+const redraw = (paths, ctx) => {
+    ctx.clearRect(0, 0, 1000, 500);
+
+    for (let path of paths) {
+        ctx.beginPath();
+        ctx.moveTo(path.pts[0].x, path.pts[0].y);
+        ctx.strokeStyle = path.color;
+        ctx.lineWidth = 2.8;
+        for (let pt of path.pts) {
+            ctx.lineTo(pt.x, pt.y);
+        }
+        ctx.stroke();
+    }
+}
+const redraw_path = (path, ctx) => {
+    ctx.strokeStyle = path.color;
+    ctx.lineWidth = 2.8;
+    ctx.beginPath();
+    ctx.moveTo(path[0].x, path[0].y);
+    for (let pt of path.pts) {
+        ctx.lineTo(pt.x, pt.y);
+    }
+    ctx.stroke();
+}
+export const Canvas = ({ mode, color }) => {
+    const canvasRef = React.useRef(null);
+    const [pos, setPos] = useState({
+        x: 0,
+        y: 0,
+    });
+    const [paths, setPaths] = useState([]);
+    const [path, setPath] = useState({ pts: [], color: color });
+    const [isMouseDown, setIsMouseDown] = useState(false);
+    const [isMouseMove, setIsMouseMove] = useState(false);
+    const [isMouseUp, setIsMouseUp] = useState(false);
+    // eslint-disable-next-line no-unused-vars
+    const [isMouseLeave, setIsMouseLeave] = useState(true);
+    const [isMouseEnter, setIsMouseEnter] = useState(false);
+    useEffect(() => {
+        const ctx = canvasRef.current.getContext("2d");
+        if (isMouseMove && isMouseDown && isMouseEnter) {
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+        }
+    }, [isMouseDown, isMouseMove, isMouseUp, isMouseEnter, pos]);
+
+    useEffect(() => {
+        const onKeyDown = (e) => {
+            const ctx = canvasRef.current.getContext("2d");
+            if (e.ctrlKey && e.key === 'z') {
+                if (paths.length > 0) {
+                    const paths_ = paths.slice(0, paths.length - 1);
+                    setPaths(paths_);
+                    redraw(paths_, ctx);
+                }
+            }
+        }
+        document.addEventListener("keydown", onKeyDown);
+        return () => {
+            document.removeEventListener("keydown", onKeyDown);
+        }
+    }, [paths, color]);
+    const handleMouseDown = (e) => {
+        setPos({
+            x: e.nativeEvent.offsetX,
+            y: e.nativeEvent.offsetY,
+        });
+        const ctx = canvasRef.current.getContext("2d");
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+        setIsMouseDown(true);
+        setIsMouseUp(false);
+    }
+    const handleMouseLeave = () => {
+        setIsMouseLeave(true);
+        setIsMouseEnter(false);
+        setIsMouseDown(false);
+    }
+    const handleMouseEnter = () => {
+        setIsMouseLeave(false);
+        setIsMouseEnter(true);
+    }
+    const handleMouseUp = (e) => {
+        setIsMouseDown(false);
+        setIsMouseUp(true);
+    }
+    const handleMouseMove = (e) => {
+        setIsMouseMove(true);
+        setPos({
+            x: e.nativeEvent.offsetX,
+            y: e.nativeEvent.offsetY,
+        });
+        if (isMouseDown && isMouseEnter) {
+            setPath({ pts: [...path.pts, pos], color: color });
+        }
+        else {
+            if (path.length) {
+                setPath({ pts: [...path.pts, pos], color: color });
+                redraw_path(path, canvasRef.current.getContext("2d"));
+            }
+            setPath([]);//待优化
+        }
+    }
+    return (
+        <div className="back-div" >
+            <canvas
+                ref={canvasRef}
+                width="1000px"
+                height="500px"
+                id="canvas1"
+                className="paint-canvas"
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseLeave}
+                onMouseEnter={handleMouseEnter}
+            >
+            </canvas>
+        </div>
+    )
+}
